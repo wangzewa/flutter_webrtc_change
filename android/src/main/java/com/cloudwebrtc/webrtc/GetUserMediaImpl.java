@@ -727,10 +727,13 @@ class GetUserMediaImpl {
             } catch (InterruptedException e) {
                 Log.e(TAG, "removeVideoCapturer() Failed to stop video capturer");
             } finally {
-                SurfaceTextureHelper helper = mSurfaceTextureHelpers.get(id);
-                helper.stopListening();
-                helper.dispose();
-                mSurfaceTextureHelpers.remove(id);
+                if(mSurfaceTextureHelpers.containsKey(id)&&mSurfaceTextureHelpers.get(id)!=null){
+                    SurfaceTextureHelper helper = mSurfaceTextureHelpers.get(id);
+                    helper.stopListening();
+                    helper.dispose();
+                    mSurfaceTextureHelpers.remove(id);
+                }
+
 //                info.capturer.dispose();
 //                mVideoCapturers.remove(id);
             }
