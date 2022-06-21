@@ -136,18 +136,10 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
   }
 
   private void ensureInitialized() {
-    if (mFactory != null) {
-      return;
-    }
+    PeerConnectionFactory.initialize(PeerConnectionFactory.InitializationOptions.builder(context).createInitializationOptions());
 
-    PeerConnectionFactory.initialize(
-            InitializationOptions.builder(context)
-                    .setEnableInternalTracer(true)
-                    .createInitializationOptions());
-
-    // Initialize EGL contexts required for HW acceleration.
+    PeerConnectionFactory.Options options = new PeerConnectionFactory.Options();
     EglBase.Context eglContext = EglUtils.getRootEglBaseContext();
-
     getUserMediaImpl = new GetUserMediaImpl(this, context);
 
     audioDeviceModule = JavaAudioDeviceModule.builder(context)
@@ -156,14 +148,44 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
             .setSamplesReadyCallback(getUserMediaImpl.inputSamplesInterceptor)
             .createAudioDeviceModule();
 
-    getUserMediaImpl.audioDeviceModule = (JavaAudioDeviceModule) audioDeviceModule;
+    DefaultVideoEncoderFactory defaultVideoEncoderFactory = new DefaultVideoEncoderFactory(
+            eglContext,  /* enableIntelVp8Encoder */true,  /* enableH264HighProfile */true);
+    DefaultVideoDecoderFactory defaultVideoDecoderFactory = new DefaultVideoDecoderFactory(eglContext);
 
     mFactory = PeerConnectionFactory.builder()
-            .setOptions(new Options())
-            .setVideoEncoderFactory(new SimulcastVideoEncoderFactoryWrapper(eglContext, true, true))
-            .setVideoDecoderFactory(new DefaultVideoDecoderFactory(eglContext))
+            .setVideoEncoderFactory(defaultVideoEncoderFactory)
+            .setVideoDecoderFactory(defaultVideoDecoderFactory)
+            .setOptions(options)
             .setAudioDeviceModule(audioDeviceModule)
             .createPeerConnectionFactory();
+//    if (mFactory != null) {
+//      return;
+//    }
+//
+//    PeerConnectionFactory.initialize(
+//            InitializationOptions.builder(context)
+//                    .setEnableInternalTracer(true)
+//                    .createInitializationOptions());
+//
+//    // Initialize EGL contexts required for HW acceleration.
+//    EglBase.Context eglContext = EglUtils.getRootEglBaseContext();
+//
+//    getUserMediaImpl = new GetUserMediaImpl(this, context);
+//
+//    audioDeviceModule = JavaAudioDeviceModule.builder(context)
+//            .setUseHardwareAcousticEchoCanceler(true)
+//            .setUseHardwareNoiseSuppressor(true)
+//            .setSamplesReadyCallback(getUserMediaImpl.inputSamplesInterceptor)
+//            .createAudioDeviceModule();
+//
+//    getUserMediaImpl.audioDeviceModule = (JavaAudioDeviceModule) audioDeviceModule;
+//
+//    mFactory = PeerConnectionFactory.builder()
+//            .setOptions(new Options())
+//            .setVideoEncoderFactory(new SimulcastVideoEncoderFactoryWrapper(eglContext, true, true))
+//            .setVideoDecoderFactory(new DefaultVideoDecoderFactory(eglContext))
+//            .setAudioDeviceModule(audioDeviceModule)
+//            .createPeerConnectionFactory();
   }
 
   @Override
