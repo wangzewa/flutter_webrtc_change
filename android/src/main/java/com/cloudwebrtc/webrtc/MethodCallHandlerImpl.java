@@ -443,6 +443,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
       case "videoRendererDispose": {
         int textureId = call.argument("textureId");
         FlutterRTCVideoRenderer render = renders.get(textureId);
+        Log.d(TAG, "被消除的视频id---------------------------------------"+textureId +"");
         if (render == null) {
           resultError("videoRendererDispose", "render [" + textureId + "] not found !", result);
           return;

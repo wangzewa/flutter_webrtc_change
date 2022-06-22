@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -57,6 +58,7 @@ class RTCVideoRenderer extends ValueNotifier<RTCVideoValue>
 
   @override
   Future<void> dispose() async {
+    log('$_textureId-------------------------被消除的视频id');
     await _eventSubscription?.cancel();
     await WebRTC.invokeMethod(
       'videoRendererDispose',
