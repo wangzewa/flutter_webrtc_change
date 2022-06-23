@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:webrtc_interface/webrtc_interface.dart';
 
@@ -55,7 +56,7 @@ class MediaStreamNative extends MediaStream {
     } else {
       _videoTracks.add(track);
     }
-
+    log('开始添加轨道： streamId:$id  trackId:${track.id}');
     if (addToNative) {
       await WebRTC.invokeMethod('mediaStreamAddTrack',
           <String, dynamic>{'streamId': id, 'trackId': track.id});
