@@ -425,12 +425,12 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
         SurfaceTexture surfaceTexture = entry.surfaceTexture();
         FlutterRTCVideoRenderer render = new FlutterRTCVideoRenderer(surfaceTexture, entry);
         renders.put(entry.id(), render);
-
+        Log.d(TAG, "创建的视频渲染---------------------------------------"+ Arrays.toString(renders)+"");
+        Log.d(TAG, "创建的视频渲染列表长度---------------------------------------"+ renders.length+"");
         EventChannel eventChannel =
                 new EventChannel(
                         messenger,
                         "FlutterWebRTC/Texture" + entry.id());
-
         eventChannel.setStreamHandler(render);
         render.setEventChannel(eventChannel);
         render.setId((int) entry.id());
