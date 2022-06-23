@@ -425,8 +425,9 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
         SurfaceTexture surfaceTexture = entry.surfaceTexture();
         FlutterRTCVideoRenderer render = new FlutterRTCVideoRenderer(surfaceTexture, entry);
         renders.put(entry.id(), render);
-        Log.d(TAG, "创建的视频渲染---------------------------------------"+ Arrays.toString(renders)+"");
-        Log.d(TAG, "创建的视频渲染列表长度---------------------------------------"+ renders.length+"");
+        Log.d(TAG, "创建的视频渲染id---------------------------------------"+ entry.id()+"");
+        Log.d(TAG, "创建的视频渲染---------------------------------------"+ renders.toString()+"");
+        Log.d(TAG, "创建的视频渲染列表长度---------------------------------------"+ renders.size()+"");
         EventChannel eventChannel =
                 new EventChannel(
                         messenger,
@@ -442,7 +443,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
       }
       case "videoRendererDispose": {
         int textureId = call.argument("textureId");
-        FlutterRTCVideoRenderer render = renders.get(textureId);
+        FlutterRTCVideoRenderer render = renders.get(Long.valueOf(textureId.toString()).longValue());
         Log.d(TAG, "被消除的视频id---------------------------------------"+textureId +"");
         if (render == null) {
           resultError("videoRendererDispose", "render [" + textureId + "] not found !", result);
