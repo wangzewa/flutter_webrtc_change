@@ -307,10 +307,10 @@ public class RTCBluetoothManager {
     }
     unregisterReceiver(bluetoothHeadsetReceiver);
     cancelTimer();
-    if (bluetoothHeadset != null) {
-      bluetoothAdapter.closeProfileProxy(BluetoothProfile.HEADSET, bluetoothHeadset);
-      bluetoothHeadset = null;
-    }
+//    if (bluetoothHeadset != null) {
+    bluetoothAdapter.closeProfileProxy(BluetoothProfile.HEADSET, bluetoothHeadset);
+    bluetoothHeadset = null;
+//    }
     bluetoothAdapter = null;
     bluetoothDevice = null;
     bluetoothState = State.UNINITIALIZED;
