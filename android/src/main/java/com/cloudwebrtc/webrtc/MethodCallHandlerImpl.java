@@ -378,7 +378,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
         mediaStreamAddTrack(streamId, trackId, result);
         for (int i = 0; i < renders.size(); i++) {
           FlutterRTCVideoRenderer renderer = renders.get(i);
-          if (renderer!=null&&renderer.checkMediaStream(streamId)!=null&&renderer.checkMediaStream(streamId)) {
+          if (renderer != null && (renderer.checkMediaStream(streamId) != null) && renderer.checkMediaStream(streamId)) {
             renderer.setVideoTrack((VideoTrack) localTracks.get(trackId));
           }
         }
