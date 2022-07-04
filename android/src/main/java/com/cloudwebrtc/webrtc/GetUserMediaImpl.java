@@ -711,7 +711,7 @@ class GetUserMediaImpl {
         videoCapturer.startCapture(info.width, info.height, info.fps);
 
         String trackId = stateProvider.getNextTrackUUID();
-//        mVideoCapturers.put(trackId, info);
+        mVideoCapturers.put(trackId, info);
         mSurfaceTextureHelpers.put(trackId, surfaceTextureHelper);
         Log.d(TAG, "changeCaptureFormat: " + info.width + "x" + info.height + "@" + info.fps);
         videoSource.adaptOutputFormat(info.width, info.height, info.fps);
@@ -734,9 +734,10 @@ class GetUserMediaImpl {
                     helper.dispose();
                     mSurfaceTextureHelpers.remove(id);
                 }
-
-//                info.capturer.dispose();
-//                mVideoCapturers.remove(id);
+                if(info.capturer!=null){
+                    info.capturer.dispose();
+                    mVideoCapturers.remove(id);
+                }
             }
         }
     }
