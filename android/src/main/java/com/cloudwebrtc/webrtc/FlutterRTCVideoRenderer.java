@@ -33,7 +33,9 @@ public class FlutterRTCVideoRenderer implements EventChannel.StreamHandler {
         }
         if (eventChannel != null)
             eventChannel.setStreamHandler(null);
-
+        if(mediaStream!=null){
+            mediaStream.dispose();
+        }
         eventSink = null;
         entry.release();
     }
