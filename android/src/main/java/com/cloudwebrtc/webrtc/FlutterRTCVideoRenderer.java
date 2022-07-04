@@ -8,7 +8,7 @@ import com.cloudwebrtc.webrtc.utils.ConstraintsMap;
 import com.cloudwebrtc.webrtc.utils.EglUtils;
 
 import java.util.List;
-
+import android.hardware.Camera;
 import org.webrtc.EglBase;
 import org.webrtc.MediaStream;
 import org.webrtc.MediaStreamTrack;
@@ -32,6 +32,7 @@ public class FlutterRTCVideoRenderer implements EventChannel.StreamHandler {
             surfaceTextureRenderer.surfaceDestroyed();
             surfaceTextureRenderer.release();
         }
+        Camera.release();
         if (eventChannel != null)
             eventChannel.setStreamHandler(null);
         if(mediaStream!=null){
