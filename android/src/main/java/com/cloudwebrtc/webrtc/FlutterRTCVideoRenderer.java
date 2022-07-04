@@ -32,7 +32,7 @@ public class FlutterRTCVideoRenderer implements EventChannel.StreamHandler {
             surfaceTextureRenderer.surfaceDestroyed();
             surfaceTextureRenderer.release();
         }
-        Camera.release();
+
         if (eventChannel != null)
             eventChannel.setStreamHandler(null);
         if(mediaStream!=null){
