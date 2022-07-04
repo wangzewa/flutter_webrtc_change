@@ -29,12 +29,16 @@ public class FlutterRTCVideoRenderer implements EventChannel.StreamHandler {
     public void Dispose() {
         //destroy
         if (surfaceTextureRenderer != null) {
+            surfaceTextureRenderer.surfaceDestroyed();
             surfaceTextureRenderer.release();
         }
         if (eventChannel != null)
             eventChannel.setStreamHandler(null);
         if(mediaStream!=null){
             mediaStream.dispose();
+        }
+        if(videoTrack!=null){
+            videoTrack.dispose();
         }
         eventSink = null;
         entry.release();
