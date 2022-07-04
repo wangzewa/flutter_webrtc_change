@@ -441,7 +441,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
           params.putInt("textureId", (int) entry.id());
           result.success(params.toMap());
         }catch (InterruptedException e){
-          Log.d(TAG, "创建视频渲染失败---------------------------------------"+ entry.id()+"");
+          Log.d(TAG, "创建视频渲染失败---------------------------------------");
         }
         break;
       }
@@ -453,7 +453,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
           resultError("videoRendererDispose", "render [" + textureId + "] not found !", result);
           return;
         }
-        render.dispose();
+        render.Dispose();
         renders.delete(textureId);
         result.success(null);
         break;
