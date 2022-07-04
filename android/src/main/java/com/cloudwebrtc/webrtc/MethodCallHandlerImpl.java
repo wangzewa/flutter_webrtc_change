@@ -421,24 +421,28 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
         break;
       }
       case "createVideoRenderer": {
-        SurfaceTextureEntry entry = textures.createSurfaceTexture();
-        SurfaceTexture surfaceTexture = entry.surfaceTexture();
-        FlutterRTCVideoRenderer render = new FlutterRTCVideoRenderer(surfaceTexture, entry);
-        renders.put(entry.id(), render);
-        Log.d(TAG, "创建的视频渲染id---------------------------------------"+ entry.id()+"");
-        Log.d(TAG, "创建的视频渲染---------------------------------------"+ renders.toString()+"");
-        Log.d(TAG, "创建的视频渲染列表长度---------------------------------------"+ renders.size()+"");
-        EventChannel eventChannel =
-                new EventChannel(
-                        messenger,
-                        "FlutterWebRTC/Texture" + entry.id());
-        eventChannel.setStreamHandler(render);
-        render.setEventChannel(eventChannel);
-        render.setId((int) entry.id());
+        try{
+          SurfaceTextureEntry entry = textures.createSurfaceTexture();
+          SurfaceTexture surfaceTexture = entry.surfaceTexture();
+          FlutterRTCVideoRenderer render = new FlutterRTCVideoRenderer(surfaceTexture, entry);
+          renders.put(entry.id(), render);
+          Log.d(TAG, "创建的视频渲染id---------------------------------------"+ entry.id()+"");
+          Log.d(TAG, "创建的视频渲染---------------------------------------"+ renders.toString()+"");
+          Log.d(TAG, "创建的视频渲染列表长度---------------------------------------"+ renders.size()+"");
+          EventChannel eventChannel =
+                  new EventChannel(
+                          messenger,
+                          "FlutterWebRTC/Texture" + entry.id());
+          eventChannel.setStreamHandler(render);
+          render.setEventChannel(eventChannel);
+          render.setId((int) entry.id());
 
-        ConstraintsMap params = new ConstraintsMap();
-        params.putInt("textureId", (int) entry.id());
-        result.success(params.toMap());
+          ConstraintsMap params = new ConstraintsMap();
+          params.putInt("textureId", (int) entry.id());
+          result.success(params.toMap());
+        }catch (InterruptedException e){
+          Log.d(TAG, "创建视频渲染失败---------------------------------------"+ entry.id()+"");
+        }
         break;
       }
       case "videoRendererDispose": {
@@ -449,7 +453,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
           resultError("videoRendererDispose", "render [" + textureId + "] not found !", result);
           return;
         }
-        render.Dispose();
+        render.dispose();
         renders.delete(textureId);
         result.success(null);
         break;
