@@ -440,7 +440,7 @@ public class MethodCallHandlerImpl implements MethodCallHandler, StateProvider {
           ConstraintsMap params = new ConstraintsMap();
           params.putInt("textureId", (int) entry.id());
           result.success(params.toMap());
-        }catch (InterruptedException e){
+        }catch (Exception e){
           Log.d(TAG, "创建视频渲染失败---------------------------------------");
         }
         break;
