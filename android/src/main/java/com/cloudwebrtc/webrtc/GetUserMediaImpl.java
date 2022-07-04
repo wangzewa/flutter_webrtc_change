@@ -722,7 +722,7 @@ class GetUserMediaImpl {
     void removeVideoCapturer(String id) {
         VideoCapturerInfo info = mVideoCapturers.get(id);
         Log.d(TAG,"清除视频捕获");
-        Camera.release();
+
         if (info != null) {
             try {
                 info.capturer.stopCapture();

@@ -108,6 +108,7 @@ public class SurfaceTextureRenderer extends EglRenderer {
   }
 
   public void surfaceDestroyed() {
+    clearImage();
     ThreadUtils.checkIsOnMainThread();
     final CountDownLatch completionLatch = new CountDownLatch(1);
     releaseEglSurface(completionLatch::countDown);
