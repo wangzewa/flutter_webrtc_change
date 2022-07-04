@@ -86,6 +86,7 @@ class PeerConnectionObserver implements PeerConnection.Observer, EventChannel.St
   }
 
   void close() {
+    Log.d(TAG, "pc------------------------------------------close");
     peerConnection.close();
     remoteStreams.clear();
     remoteTracks.clear();
@@ -93,6 +94,7 @@ class PeerConnectionObserver implements PeerConnection.Observer, EventChannel.St
   }
 
   void dispose() {
+    Log.d(TAG, "pc------------------------------------------dispose");
     this.close();
     peerConnection.dispose();
     eventChannel.setStreamHandler(null);
